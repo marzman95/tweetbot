@@ -11,4 +11,5 @@ class Nonce {
     }
     return string.toString();
   }
+
 }
