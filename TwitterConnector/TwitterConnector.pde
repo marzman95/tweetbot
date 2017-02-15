@@ -2,7 +2,9 @@ Connector TwitterConnector;
 //Translator TweetTranslator;
 
 void setup() {
-  TwitterConnector = new Connector("GET");
-  System.out.println(TwitterConnector.returnData());
-  System.out.println(TwitterConnector.getSignature());
+  TwitterConnector = new Connector();
+  System.out.println("Timestamp: " + TwitterConnector.timeStamp);
+  System.out.println("Nonce: " + TwitterConnector.getNonce());
+  System.out.println("ByteNonce: " + TwitterConnector.bEncodedNonce);
+  System.out.println(TwitterConnector.createOAuthHeaderString());
 }
