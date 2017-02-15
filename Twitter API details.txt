@@ -1,0 +1,23 @@
+REST API - write a direct message to a receiver:
+POST https://api.twitter.com/1.1/direct_messages/new.json?text=Hello%20you&screen_name=RECEIVERNAME
+Documentation: POST direct_messages/new https://dev.twitter.com/rest/reference/post/direct_messages/new
+
+REST API - post a status update:
+POST https://api.twitter.com/1.1/statuses/update.json?status=Hello%20world
+Documentation: POST statuses/update https://dev.twitter.com/rest/reference/post/statuses/update
+
+Streaming API - request tweets containing our handle:
+POST https://stream.twitter.com/1.1/statuses/filter.json?track=Tweetbot_DBSU10
+Documentation: POST statuses/filter https://dev.twitter.com/streaming/reference/post/statuses/filter
+Response: we need values of keys text (tweet text) and screen_name (of the user who sent the tweet)
+
+HTTP request OAuth authorization parameters:
+Authorization: OAuth oauth_consumer_key="nFxSHrom3pNdvmx2TvLRFdzAh", oauth_nonce="NONCE", oauth_signature="SIGNATURE", oauth_signature_method="HMAC-SHA1", oauth_timestamp="TIMESTAMP", oauth_token="831786162872262658-MZmxeFo3si5f7BToGLcmIZmf6qH9TI2", oauth_version="1.0"
+
+Twitter account details:
+Username: Tweetbot_DBSU10
+Password: tweetbotgroup4
+Consumer Key (API Key): nFxSHrom3pNdvmx2TvLRFdzAh
+Consumer Secret (API Secret): kt45RjkQbKUHF3WqB9WoPHBlx4LbInutPraLD5k9DqcV3IjQYo
+Access Token: 831786162872262658-MZmxeFo3si5f7BToGLcmIZmf6qH9TI2
+Access Token Secret: CweKTuNzimS3l5jAZdOp41kSWqpEcZkZAIxe4G7fsdCze
