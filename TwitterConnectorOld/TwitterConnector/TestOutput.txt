@@ -1,0 +1,4 @@
+Timestamp: 1487168742
+Nonce: lmumwdDp4gINGPzv52EZs6Z07zST0ebZ
+ByteNonce: [B@730985e2
+OAuth oauth_consumer_key="nFxSHrom3pNdvmx2TvLRFdzAh", oauth_nonce="%5BB%40730985e2", oauth_signature="%5BB%4067e80a84", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1487168742", oauth_token="831786162872262658-MZmxeFo3si5f7BToGLcmIZmf6qH9TI2", oauth_version="1.0"
