@@ -1,3 +1,12 @@
+import nl.tue.id.oocsi.*;
+import nl.tue.id.oocsi.client.*;
+import nl.tue.id.oocsi.client.behavior.*;
+import nl.tue.id.oocsi.client.behavior.state.*;
+import nl.tue.id.oocsi.client.data.*;
+import nl.tue.id.oocsi.client.protocol.*;
+import nl.tue.id.oocsi.client.services.*;
+import nl.tue.id.oocsi.client.socket.*;
+
 import twitter4j.*;
 import twitter4j.api.*;
 import twitter4j.auth.*;
@@ -12,6 +21,7 @@ Query query;
 TwitterFactory factory;
 Twitter twitter;
 Status status;
+String OOCSItweet;
 
 void setup() {       
   cb = new ConfigurationBuilder();
@@ -23,9 +33,14 @@ void setup() {
   factory = new TwitterFactory(cb.build());
   twitter = factory.getInstance();
   
-  postStatus("Hi there!");
-  
+  OOCSI oocsi = new OOCSI(this, "TweetReceiver", "oocsi.id.tue.nl");
+  oocsi.subscribe("tweetBot");
 } 
+
+void tweetBot(OOCSIEvent event) {
+  OOCSItweet = event.getString("tweet", "Default tweet. Something went wrong.");
+  postStatus(OOCSItweet);
+}
 
 void postStatus(String newStatus) {
   try {

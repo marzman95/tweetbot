@@ -4,5 +4,5 @@ OOCSI oocsi;
 
 void setup() {
   oocsi = new OOCSI(this, "TweetSender", "oocsi.id.tue.nl");
-  oocsi.channel("tweetBot").data("tweet", "OOCSI tweet! Yay!").send();
+  oocsi.channel("tweetBot").data("tweet", "The second OOCSI tweet! Yay!").send();
 }
