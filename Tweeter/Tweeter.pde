@@ -22,8 +22,9 @@ TwitterFactory factory;
 TwitterStreamFactory streamFactory;
 Twitter twitter;
 Status status;
-String OOCSItweet;
 StatusListener listener;
+String OOCSItweet;
+int maxTweetLength = 140;
 
 void setup() {       
   // Setup credentials and Twitter instance
@@ -62,7 +63,7 @@ void setup() {
 // Handler method for OOCSI events
 void tweetBot(OOCSIEvent event) {
   OOCSItweet = event.getString("tweet", "Default tweet. Something went wrong.");
-  if (OOCSItweet.length() > 140) {
+  if (OOCSItweet.length() > maxTweetLength) {
     println("Error: The status is too long to be posted.");
   }
   println("[OOSCI-receiver] Received a Tweet to be sent!");
@@ -71,11 +72,15 @@ void tweetBot(OOCSIEvent event) {
 
 // Posting a status
 void postStatus(String newStatus) {
-  try {
-  status = twitter.updateStatus(newStatus);
-  println("[Twitter4j-tweet] Status updated!");  
-  } catch(Exception e) {
-    println(e);
+  if(newStatus.length() > maxTweetLength) {
+    println("Error: tweet was too long to send.")
+  } else {
+    try {
+    status = twitter.updateStatus(newStatus);
+    println("[Twitter4j-tweet] Status updated!");  
+    } catch(Exception e) {
+      println(e);
+    }
   }
 }
 
