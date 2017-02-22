@@ -62,7 +62,10 @@ void setup() {
 // Handler method for OOCSI events
 void tweetBot(OOCSIEvent event) {
   OOCSItweet = event.getString("tweet", "Default tweet. Something went wrong.");
-  System.out.println("[OOSCI-receiver] Received a Tweet to be sent!");
+  if (OOCSItweet.length() > 140) {
+    println("Error: The status is too long to be posted.");
+  }
+  println("[OOSCI-receiver] Received a Tweet to be sent!");
   postStatus(OOCSItweet);
 }
 
@@ -70,7 +73,7 @@ void tweetBot(OOCSIEvent event) {
 void postStatus(String newStatus) {
   try {
   status = twitter.updateStatus(newStatus);
-  System.out.println("[Twitter4j-tweet] Status updated!");  
+  println("[Twitter4j-tweet] Status updated!");  
   } catch(Exception e) {
     println(e);
   }
@@ -80,10 +83,34 @@ void postStatus(String newStatus) {
 void setupStream() {
   TwitterStream twitterStream = streamFactory.getInstance();
   twitterStream.addListener(listener);
-  twitterStream.filter("#pizza");
+  twitterStream.filter("@Tweetbot_DBSU10");
 }
 
-// Method to handle our mentions (tweets to us) (stub)
+// Method to handle our mentions (tweets to us)
 void handleStatus(Status status) {
- System.out.println("[Twitter4j-stream] " + status.getUser().getName() + " : " + status.getText()); 
+  println("[Twitter4j-stream] " + status.getUser().getName() + " : " + status.getText()); 
+  
+  String tweetText = status.getText().toLowerCase();
+  if(tweetText.contains("deadline")) {
+      String requestReply = "@" + status.getUser().getScreenName() + 
+          " The next deadline, for handing in Challenge 1, is March 10, at 17:00!";
+      postStatus(requestReply);
+  }
+  checkProduct("coffee", status);
+  checkProduct("pizza", status);
+}
+
+// Method to check a tweet for a product order and handle it
+void checkProduct(String product, Status status) {
+  String tweetText = status.getText().toLowerCase();
+  if(tweetText.contains("i want " + product) || tweetText.contains("order " + product)) {
+    // For assignment 2: order product here
+    confirmOrder(product, status);
+  }
+}
+
+// Method to confirm a placed order to a Twitter user
+void confirmOrder(String product, Status status) {
+  String orderReply = "@" + status.getUser().getScreenName() + " Your " + product + " has been ordered!";
+  postStatus(orderReply);
 }

@@ -1,0 +1,7 @@
+To do:
+[x] OOCSI input handlen
+[x] Streaming input handlen
+[ ] Testcode maken
+[x] API documentatie maken
+[ ] Poster maken met functionality, scenarios, test cases (en illustraties)
+[ ] Individuele reflectie schrijven
