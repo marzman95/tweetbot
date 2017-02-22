@@ -1,7 +1,7 @@
 # Tweetbot
 #### TU/e [DBSU10] "Technologies for connectivity"
 ###### [Anne Kok](http://github.com/AnneKok), [Dianne Vasseur](http://github.com/Dmvasseur), [Manon Blankendaal](http://github.com/Manonx4), [Marcin van de Ven](http://github.com/marzman95)
-Software & File repository for the group 4 of the course "Technologies for connectivity" [DBSU10], TU/e
+Software & File repository for group 4 of the course "Technologies for connectivity" [DBSU10], TU/e
 
 ## API Documentation
 ### API calls through [OOCSI](https://github.com/iddi/oocsi)
@@ -9,7 +9,7 @@ The OOCSI channel we are monitoring is `tweetBot`. Set up a direct sender to our
 ```Processing
 oocsi = new OOCSI(this, "<Groupname>", "oocsi.id.tue.nl");
 ```
-Where "\<Groupname\>" has to be replaced by your groupname.
+Where \<Groupname\> has to be replaced by your groupname and between double qoutes `"`.
 
 #### General tweet
 If you want our Tweetbot to simply send out a tweet, use key-value pair with tweet as key, and the text of the tweet you want to send as value. In Processing, it looks like this:
