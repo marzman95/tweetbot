@@ -1,0 +1,21 @@
+Steps to make an authenticated GET-HTTP request to Twitter:
+1. Get data (tweet, account, keys) and (unix-)time
+2. Create a random string of 32 characters, the "nonce", this one is encoded to Base64
+3. Create the parameters (include_entities, oauth_consumer_key, oauth_nonce, oauth_signature_method, oauth_token, oauth_version, status)
+	Those have to be "Percent-encoded"
+4. Create base signature using the percent-encoded parameters
+5. State the URL and add the parameters, this is the signature base
+6. Use the percent-encoded consumerSecret and the percent-encoded accessSecret to generate a key
+7. Create the signature using the base and the key
+8. Use the paramaters to generate the OAuth-data
+9. Make an OAuth string of this data, which is percent-encoded
+10. Make the request.
+
+Class Encoder (Both UTF-8!):
+- Base64-string
+- Percent
+- Timestamp
+- Nonce-gen
+
+Class for creating the right URL?
+- Depends on method and data type: needed: kind of data to be fetched or send.
