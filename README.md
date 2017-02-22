@@ -32,5 +32,5 @@ Our Twitter handle is [@Tweetbot_DBSU10](http://twitter.com/tweetbot_dbsu10). Se
 | Order coffee | Tweetbot orders you pizza through OOCSI using Group 2's module and tweets you a conformation. |
 | I want coffee | Tweetbot orders you pizza through OOCSI using Group 2's module and tweets you a conformation. |
 
-Tweets should contain the exact input string, so `order me pizza` will not work. An example:
+Tweets should contain the exact input string, so `order me pizza` will not work. The API is not case-sensitive, so `order pizza` will work. An example:
 `Hey @Tweetbot_DBSU10, can you please order pizza for me?`
