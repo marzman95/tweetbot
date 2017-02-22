@@ -62,6 +62,7 @@ void setup() {
 // Handler method for OOCSI events
 void tweetBot(OOCSIEvent event) {
   OOCSItweet = event.getString("tweet", "Default tweet. Something went wrong.");
+  System.out.println("[OOSCI-receiver] Received a Tweet to be sent!");
   postStatus(OOCSItweet);
 }
 
@@ -69,6 +70,7 @@ void tweetBot(OOCSIEvent event) {
 void postStatus(String newStatus) {
   try {
   status = twitter.updateStatus(newStatus);
+  System.out.println("[Twitter4j-tweet] Status updated!");  
   } catch(Exception e) {
     println(e);
   }
@@ -78,10 +80,10 @@ void postStatus(String newStatus) {
 void setupStream() {
   TwitterStream twitterStream = streamFactory.getInstance();
   twitterStream.addListener(listener);
-  twitterStream.filter("@Tweetbot_DBSU10");
+  twitterStream.filter("#pizza");
 }
 
 // Method to handle our mentions (tweets to us) (stub)
 void handleStatus(Status status) {
- System.out.println(status.getUser().getName() + " : " + status.getText()); 
+ System.out.println("[Twitter4j-stream] " + status.getUser().getName() + " : " + status.getText()); 
 }
