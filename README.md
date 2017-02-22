@@ -1,6 +1,6 @@
 # Tweetbot
 #### TU/e [DBSU10] "Technologies for connectivity"
-###### Anne Kok [@AnneKok](http://github.com/AnneKok), Dianne Vasseur [@Dmvasseur](http://github.com/Dmvasseur), Manon Blankendaal [@Manonx4](http://github.com/Manonx4), Marcin van de Ven [@marzman95](http://github.com/marzman95)
+###### [Anne Kok](http://github.com/AnneKok), [Dianne Vasseur](http://github.com/Dmvasseur), [Manon Blankendaal](http://github.com/Manonx4), [Marcin van de Ven](http://github.com/marzman95)
 Software & File repository for the group 4 of the course "Technologies for connectivity" [DBSU10], TU/e
 
 ## API Documentation
