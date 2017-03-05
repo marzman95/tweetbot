@@ -73,7 +73,7 @@ void tweetBot(OOCSIEvent event) {
 // Posting a status
 void postStatus(String newStatus) {
   if(newStatus.length() > maxTweetLength) {
-    println("Error: tweet was too long to send.")
+    println("Error: tweet was too long to send.");
   } else {
     try {
     status = twitter.updateStatus(newStatus);
