@@ -1,3 +1,8 @@
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.text.SimpleDateFormat;
+
 import twitter4j.*;
 import twitter4j.api.*;
 import twitter4j.auth.*;
@@ -16,23 +21,41 @@ import nl.tue.id.oocsi.client.protocol.*;
 import nl.tue.id.oocsi.client.services.*;
 import nl.tue.id.oocsi.client.socket.*;
 
-ConfigurationBuilder cb; 
-Query query; 
+Twitter twitter;
 TwitterFactory factory;
 TwitterStreamFactory streamFactory;
-Twitter twitter;
+Query query; 
 Status status;
 StatusListener listener;
 String OOCSItweet;
 int maxTweetLength = 140;
+List<Deadline> deadlines;
+SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, 'at' HH:mm");
 
+public class Deadline {
+    private final String item;
+    private final Calendar time;
+   
+    public Deadline(String item, Calendar time) {
+        this.item = item;
+        this.time = time;
+    }
+
+    public String getItem() { return item; }
+    public Calendar getCal() { return time; }
+}
+
+// Method to setup Twitter instance, stream listener, and OOCSI receiver
 void setup() {       
-  // Setup credentials and Twitter instance
-  cb = new ConfigurationBuilder();
-  cb.setOAuthConsumerKey("nFxSHrom3pNdvmx2TvLRFdzAh");   
-  cb.setOAuthConsumerSecret("kt45RjkQbKUHF3WqB9WoPHBlx4LbInutPraLD5k9DqcV3IjQYo");   
-  cb.setOAuthAccessToken("831786162872262658-MZmxeFo3si5f7BToGLcmIZmf6qH9TI2");   
-  cb.setOAuthAccessTokenSecret("CweKTuNzimS3l5jAZdOp41kSWqpEcZkZAIxe4G7fsdCze");
+  // Setup Twitter instance
+  //twitter = TwitterFactory.getSingleton();
+  //streamFactory = TwitterStreamFactory.getSingleton();
+  ConfigurationBuilder cb = new ConfigurationBuilder();
+  cb.setDebugEnabled(true)
+  .setOAuthConsumerKey("CdgOhLWmfD6gO4MqwAsQYpvHu")
+  .setOAuthConsumerSecret("LueXAWdgCWluDHq2I5hGlMOw4RwPpx0fsD8RehXuqtMxmyx3Ii")
+  .setOAuthAccessToken("831786162872262658-5TdHdOM7tU7eFD3wwJIFUTc7d6tW97z")
+  .setOAuthAccessTokenSecret("qreucGdtDLrFoPdzyxVDBaqXQXVgd2Cm11H8jaJJzRjv2");
   Configuration conf = cb.build();
   factory = new TwitterFactory(conf);
   streamFactory = new TwitterStreamFactory(conf);
@@ -41,6 +64,10 @@ void setup() {
   // Setup OOCSI receiver
   OOCSI oocsi = new OOCSI(this, "TweetReceiver", "oocsi.id.tue.nl");
   oocsi.subscribe("tweetBot");
+  
+  // Set deadlines
+  deadlines = new ArrayList<Deadline>();
+  setDeadlines();
   
   // Setup listener for streaming API (stub)
   listener = new StatusListener() {
@@ -97,8 +124,11 @@ void handleStatus(Status status) {
   
   String tweetText = status.getText().toLowerCase();
   if(tweetText.contains("deadline")) {
+      Deadline nextDeadline = getNextDeadline();
       String requestReply = "@" + status.getUser().getScreenName() + 
-          " The next deadline, for handing in Challenge 1, is March 10, at 17:00!";
+          " The next deadline is for " 
+          + nextDeadline.getItem() + ", on " 
+          + dateFormat.format(nextDeadline.getCal().getTime()) + ".";
       postStatus(requestReply);
   }
   checkProduct("coffee", status);
@@ -118,4 +148,31 @@ void checkProduct(String product, Status status) {
 void confirmOrder(String product, Status status) {
   String orderReply = "@" + status.getUser().getScreenName() + " Your " + product + " has been ordered!";
   postStatus(orderReply);
+}
+
+// Methods to add a deadline, must be in chronological order!
+void setDeadlines() {
+  addDeadline("the mini-PDP", 2017, 1, 13, 8, 45);
+  addDeadline("Challenge 1", 2017, 2, 10, 17, 0);
+  addDeadline("Challenge 2", 2017, 3, 10, 17, 0);
+}
+void addDeadline(String item, int year, int month, int day, int hour, int minute) {
+  Calendar cal = Calendar.getInstance();
+  cal.set(year, month, day, hour, minute);
+  Deadline dl = new Deadline(item, cal);
+  deadlines.add(dl);
+}
+
+// Method to get the next deadline
+Deadline getNextDeadline() {
+  long currentTime = System.currentTimeMillis();
+  System.out.println(currentTime);
+  for(Deadline dl : deadlines) {
+    if (dl.getCal().getTimeInMillis() < currentTime) {
+      // This deadline has passed. Do nothing.
+    } else {
+      return dl;
+    }
+  }
+  return new Deadline("-- there are no more deadlines! --", Calendar.getInstance());
 }
