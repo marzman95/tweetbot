@@ -21,35 +21,26 @@ import nl.tue.id.oocsi.client.protocol.*;
 import nl.tue.id.oocsi.client.services.*;
 import nl.tue.id.oocsi.client.socket.*;
 
-Twitter twitter;
 TwitterFactory factory;
+Twitter twitter;
 TwitterStreamFactory streamFactory;
+TwitterStream twitterStream;
+
+StatusHandler statusHandler = new StatusHandler();
+DeadlineHandler deadlineHandler = new DeadlineHandler();
+OOCSIHandler oocsiHandler = new OOCSIHandler();
+
 Query query; 
 Status status;
 StatusListener listener;
-String OOCSItweet;
-int maxTweetLength = 140;
 List<Deadline> deadlines;
+
+int maxTweetLength = 140;
 SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, 'at' HH:mm");
-
-public class Deadline {
-    private final String item;
-    private final Calendar time;
-   
-    public Deadline(String item, Calendar time) {
-        this.item = item;
-        this.time = time;
-    }
-
-    public String getItem() { return item; }
-    public Calendar getCal() { return time; }
-}
 
 // Method to setup Twitter instance, stream listener, and OOCSI receiver
 void setup() {       
   // Setup Twitter instance
-  //twitter = TwitterFactory.getSingleton();
-  //streamFactory = TwitterStreamFactory.getSingleton();
   ConfigurationBuilder cb = new ConfigurationBuilder();
   cb.setDebugEnabled(true)
   .setOAuthConsumerKey("CdgOhLWmfD6gO4MqwAsQYpvHu")
@@ -67,13 +58,13 @@ void setup() {
   
   // Set deadlines
   deadlines = new ArrayList<Deadline>();
-  setDeadlines();
+  deadlineHandler.setDeadlines();
   
   // Setup listener for streaming API (stub)
   listener = new StatusListener() {
     
     public void onStatus(Status status) {
-        handleStatus(status);
+        statusHandler.handleStatus(status);
     }
     public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {}
     public void onTrackLimitationNotice(int numberOfLimitedStatuses) {}
@@ -87,28 +78,10 @@ void setup() {
   
 } 
 
-// Handler method for OOCSI events
-void tweetBot(OOCSIEvent event) {
-  OOCSItweet = event.getString("tweet", "Default tweet. Something went wrong.");
-  if (OOCSItweet.length() > maxTweetLength) {
-    println("Error: The status is too long to be posted.");
-  }
-  println("[OOSCI-receiver] Received a Tweet to be sent!");
-  postStatus(OOCSItweet);
-}
+// OOCSI handler method
 
-// Posting a status
-void postStatus(String newStatus) {
-  if(newStatus.length() > maxTweetLength) {
-    println("Error: tweet was too long to send.");
-  } else {
-    try {
-    status = twitter.updateStatus(newStatus);
-    println("[Twitter4j-tweet] Status updated!");  
-    } catch(Exception e) {
-      println(e);
-    }
-  }
+void tweetBot(OOCSIEvent event) {
+  oocsiHandler.handleOOCSI(event);
 }
 
 // Setup for streaming API
@@ -118,61 +91,17 @@ void setupStream() {
   twitterStream.filter("@Tweetbot_DBSU10");
 }
 
-// Method to handle our mentions (tweets to us)
-void handleStatus(Status status) {
-  println("[Twitter4j-stream] " + status.getUser().getName() + " : " + status.getText()); 
-  
-  String tweetText = status.getText().toLowerCase();
-  if(tweetText.contains("deadline")) {
-      Deadline nextDeadline = getNextDeadline();
-      String requestReply = "@" + status.getUser().getScreenName() + 
-          " The next deadline is for " 
-          + nextDeadline.getItem() + ", on " 
-          + dateFormat.format(nextDeadline.getCal().getTime()) + ".";
-      postStatus(requestReply);
-  }
-  checkProduct("coffee", status);
-  checkProduct("pizza", status);
-}
-
-// Method to check a tweet for a product order and handle it
-void checkProduct(String product, Status status) {
-  String tweetText = status.getText().toLowerCase();
-  if(tweetText.contains("i want " + product) || tweetText.contains("order " + product)) {
-    // For assignment 2: order product here
-    confirmOrder(product, status);
-  }
-}
-
-// Method to confirm a placed order to a Twitter user
-void confirmOrder(String product, Status status) {
-  String orderReply = "@" + status.getUser().getScreenName() + " Your " + product + " has been ordered!";
-  postStatus(orderReply);
-}
-
-// Methods to add a deadline, must be in chronological order!
-void setDeadlines() {
-  addDeadline("the mini-PDP", 2017, 1, 13, 8, 45);
-  addDeadline("Challenge 1", 2017, 2, 10, 17, 0);
-  addDeadline("Challenge 2", 2017, 3, 10, 17, 0);
-}
-void addDeadline(String item, int year, int month, int day, int hour, int minute) {
-  Calendar cal = Calendar.getInstance();
-  cal.set(year, month, day, hour, minute);
-  Deadline dl = new Deadline(item, cal);
-  deadlines.add(dl);
-}
-
-// Method to get the next deadline
-Deadline getNextDeadline() {
-  long currentTime = System.currentTimeMillis();
-  System.out.println(currentTime);
-  for(Deadline dl : deadlines) {
-    if (dl.getCal().getTimeInMillis() < currentTime) {
-      // This deadline has passed. Do nothing.
-    } else {
-      return dl;
+// Method for posting a status
+void postStatus(String newStatus) {
+  if(newStatus.length() > maxTweetLength) {
+    println("Error: tweet was too long to send.");
+    // For Challenge 2: Also reply over OOCSI that this error occurred.
+  } else {
+    try {
+    status = twitter.updateStatus(newStatus);
+    println("[Twitter4j-tweet] Status updated!");  
+    } catch(Exception e) {
+      println(e);
     }
   }
-  return new Deadline("-- there are no more deadlines! --", Calendar.getInstance());
 }
