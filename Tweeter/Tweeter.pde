@@ -21,10 +21,11 @@ import nl.tue.id.oocsi.client.protocol.*;
 import nl.tue.id.oocsi.client.services.*;
 import nl.tue.id.oocsi.client.socket.*;
 
-Twitter twitter;
+ConfigurationBuilder cb; 
+Query query; 
 TwitterFactory factory;
 TwitterStreamFactory streamFactory;
-Query query; 
+Twitter twitter;
 Status status;
 StatusListener listener;
 String OOCSItweet;
@@ -45,17 +46,13 @@ public class Deadline {
     public Calendar getCal() { return time; }
 }
 
-// Method to setup Twitter instance, stream listener, and OOCSI receiver
 void setup() {       
-  // Setup Twitter instance
-  //twitter = TwitterFactory.getSingleton();
-  //streamFactory = TwitterStreamFactory.getSingleton();
-  ConfigurationBuilder cb = new ConfigurationBuilder();
-  cb.setDebugEnabled(true)
-  .setOAuthConsumerKey("CdgOhLWmfD6gO4MqwAsQYpvHu")
-  .setOAuthConsumerSecret("LueXAWdgCWluDHq2I5hGlMOw4RwPpx0fsD8RehXuqtMxmyx3Ii")
-  .setOAuthAccessToken("831786162872262658-5TdHdOM7tU7eFD3wwJIFUTc7d6tW97z")
-  .setOAuthAccessTokenSecret("qreucGdtDLrFoPdzyxVDBaqXQXVgd2Cm11H8jaJJzRjv2");
+  // Setup credentials and Twitter instance
+  cb = new ConfigurationBuilder();
+  cb.setOAuthConsumerKey("CdgOhLWmfD6gO4MqwAsQYpvHu");   
+  cb.setOAuthConsumerSecret("LueXAWdgCWluDHq2I5hGlMOw4RwPpx0fsD8RehXuqtMxmyx3Ii");   
+  cb.setOAuthAccessToken("831786162872262658-5TdHdOM7tU7eFD3wwJIFUTc7d6tW97z");   
+  cb.setOAuthAccessTokenSecret("qreucGdtDLrFoPdzyxVDBaqXQXVgd2Cm11H8jaJJzRjv2");
   Configuration conf = cb.build();
   factory = new TwitterFactory(conf);
   streamFactory = new TwitterStreamFactory(conf);
@@ -84,6 +81,8 @@ void setup() {
     }
   };
   setupStream();
+  DmHandler dmHandler = new DmHandler(twitter);
+  dmHandler.getDMs();
   
 } 
 
