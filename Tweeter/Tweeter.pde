@@ -38,7 +38,12 @@ List<Deadline> deadlines;
 int maxTweetLength = 140;
 SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, 'at' HH:mm");
 
-// Method to setup Twitter instance, stream listener, and OOCSI receiver
+/*
+* Sets up Twitter instance, stream listener, and OOCSI receiver.
+* The listener can monitor streaming Twitter data. The OOCSI receiver
+* monitors incoming OOCSI messages on the tweetBot channel.
+*
+*/
 void setup() {       
   // Setup Twitter instance
   ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -60,7 +65,7 @@ void setup() {
   deadlines = new ArrayList<Deadline>();
   deadlineHandler.setDeadlines();
   
-  // Setup listener for streaming API (stub)
+  // Setup listener for streaming API
   listener = new StatusListener() {
     
     public void onStatus(Status status) {
@@ -78,20 +83,37 @@ void setup() {
   
 } 
 
-// OOCSI handler method
-
+/* 
+* Handles OOCSI events.
+* Calls OOCSIHandler's method handleOOCSI.
+*
+* @param  event  The incoming OOCSI event to be handled.
+* @modifies none
+*/
 void tweetBot(OOCSIEvent event) {
   oocsiHandler.handleOOCSI(event);
 }
 
-// Setup for streaming API
+/* 
+* Sets up streaming API with listener and filter.
+* Filters for tweets containing @Tweetbot_DBSU10.
+*
+* @modifies  none
+*/
 void setupStream() {
   TwitterStream twitterStream = streamFactory.getInstance();
   twitterStream.addListener(listener);
   twitterStream.filter("@Tweetbot_DBSU10");
 }
 
-// Method for posting a status
+/*
+* Posts a status to Twitter.
+* Posts a new status on the Tweetbot_DBSU10 account. Tweets cannot
+* exceed 140 characters.
+* 
+* @param  newStatus  The status to be posted, a string.
+* @modifies none
+*/
 void postStatus(String newStatus) {
   if(newStatus.length() > maxTweetLength) {
     println("Error: tweet was too long to send.");
