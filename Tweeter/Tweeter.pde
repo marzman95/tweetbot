@@ -21,24 +21,31 @@ import nl.tue.id.oocsi.client.protocol.*;
 import nl.tue.id.oocsi.client.services.*;
 import nl.tue.id.oocsi.client.socket.*;
 
-TwitterFactory factory;
-Twitter twitter;
-TwitterStreamFactory streamFactory;
-TwitterStream twitterStream;
-
-StatusHandler statusHandler = new StatusHandler();
-DeadlineHandler deadlineHandler = new DeadlineHandler();
-OOCSIHandler oocsiHandler = new OOCSIHandler();
-
+ConfigurationBuilder cb; 
 Query query; 
+TwitterFactory factory;
+TwitterStreamFactory streamFactory;
+Twitter twitter;
 Status status;
 StatusListener listener;
-List<Deadline> deadlines;
-
+String OOCSItweet;
 int maxTweetLength = 140;
+List<Deadline> deadlines;
 SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, 'at' HH:mm");
 
-// Method to setup Twitter instance, stream listener, and OOCSI receiver
+public class Deadline {
+    private final String item;
+    private final Calendar time;
+   
+    public Deadline(String item, Calendar time) {
+        this.item = item;
+        this.time = time;
+    }
+
+    public String getItem() { return item; }
+    public Calendar getCal() { return time; }
+}
+
 void setup() {       
   // Setup Twitter instance
   ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -75,6 +82,8 @@ void setup() {
     }
   };
   setupStream();
+  DmHandler dmHandler = new DmHandler(twitter);
+  dmHandler.getDMs();
   
 } 
 
