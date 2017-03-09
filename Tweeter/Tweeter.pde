@@ -21,6 +21,7 @@ import nl.tue.id.oocsi.client.protocol.*;
 import nl.tue.id.oocsi.client.services.*;
 import nl.tue.id.oocsi.client.socket.*;
 
+
 /**
 * This class is the main class for the Tweetbot module. It sets up
 * the Twitter API clients and the OOCSI receiver. This class also
@@ -33,21 +34,16 @@ import nl.tue.id.oocsi.client.socket.*;
 * @author  Anne Kok
 */
 
-TwitterFactory factory;
-Twitter twitter;
-TwitterStreamFactory streamFactory;
-TwitterStream twitterStream;
-
-StatusHandler statusHandler = new StatusHandler();
-DeadlineHandler deadlineHandler = new DeadlineHandler();
-OOCSIHandler oocsiHandler = new OOCSIHandler();
-
+ConfigurationBuilder cb; 
 Query query; 
+TwitterFactory factory;
+TwitterStreamFactory streamFactory;
+Twitter twitter;
 Status status;
 StatusListener listener;
-List<Deadline> deadlines;
-
+String OOCSItweet;
 int maxTweetLength = 140;
+List<Deadline> deadlines;
 SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, 'at' HH:mm");
 
 /**
@@ -56,8 +52,7 @@ SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, 'at' HH:mm");
 * monitors incoming OOCSI messages on the tweetBot channel.
 */
 public void setup() {       
-  
-  // Setup Twitter credentials
+  // Setup Twitter instance
   ConfigurationBuilder cb = new ConfigurationBuilder();
   cb.setDebugEnabled(true)
   .setOAuthConsumerKey("CdgOhLWmfD6gO4MqwAsQYpvHu")
@@ -115,6 +110,11 @@ private void setupStream() {
         ex.printStackTrace();
     }
   };
+
+  setupStream();
+  DmHandler dmHandler = new DmHandler(twitter);
+  dmHandler.getDMs();
+
   
   TwitterStream twitterStream = streamFactory.getInstance();
   twitterStream.addListener(listener);
