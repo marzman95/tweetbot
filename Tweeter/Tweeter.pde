@@ -116,11 +116,9 @@ private void setupStream() {
     }
   };
 
-  setupStream();
   DmHandler dmHandler = new DmHandler(twitter);
   dmHandler.getDMs();
 
-  
   TwitterStream twitterStream = streamFactory.getInstance();
   twitterStream.addListener(listener);
   twitterStream.filter("@Tweetbot_DBSU10");
