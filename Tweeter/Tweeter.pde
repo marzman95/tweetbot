@@ -34,16 +34,21 @@ import nl.tue.id.oocsi.client.socket.*;
 * @author  Anne Kok
 */
 
-ConfigurationBuilder cb; 
-Query query; 
 TwitterFactory factory;
-TwitterStreamFactory streamFactory;
 Twitter twitter;
+TwitterStreamFactory streamFactory;
+TwitterStream twitterStream;
+
+StatusHandler statusHandler = new StatusHandler();
+DeadlineHandler deadlineHandler = new DeadlineHandler();
+OOCSIHandler oocsiHandler = new OOCSIHandler();
+
+Query query; 
 Status status;
 StatusListener listener;
-String OOCSItweet;
-int maxTweetLength = 140;
 List<Deadline> deadlines;
+
+int maxTweetLength = 140;
 SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, 'at' HH:mm");
 
 /**
@@ -111,11 +116,9 @@ private void setupStream() {
     }
   };
 
-  setupStream();
   DmHandler dmHandler = new DmHandler(twitter);
   dmHandler.getDMs();
 
-  
   TwitterStream twitterStream = streamFactory.getInstance();
   twitterStream.addListener(listener);
   twitterStream.filter("@Tweetbot_DBSU10");

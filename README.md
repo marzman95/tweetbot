@@ -27,10 +27,10 @@ Our Twitter handle is [@Tweetbot_DBSU10](http://twitter.com/tweetbot_dbsu10). Se
 | Input | Result |
 | -------- | -------- |
 | Deadline | Tweetbot replies with the next deadlines for DBSU10. |
-| Order pizza | Tweetbot orders you pizza through OOCSI using Group 3's module and tweets you a conformation. |
-| I want pizza | Tweetbot orders you pizza through OOCSI using Group 3's module and tweets you a conformation. |
-| Order coffee | Tweetbot orders you pizza through OOCSI using Group 2's module and tweets you a conformation. |
-| I want coffee | Tweetbot orders you pizza through OOCSI using Group 2's module and tweets you a conformation. |
+| Order pizza | Tweetbot orders you pizza through OOCSI using Group 3's module and tweets you a confirmation. |
+| I want pizza | Tweetbot orders you pizza through OOCSI using Group 3's module and tweets you a confirmation. |
+| Order coffee | Tweetbot orders you coffee through OOCSI using Group 2's module and tweets you a confirmation. |
+| I want coffee | Tweetbot orders you coffee through OOCSI using Group 2's module and tweets you a confirmation. |
 
 Tweets should contain the exact input string, so `order me pizza` will not work. The API is not case-sensitive, so `order pizza` will work. An example:
 `Hey @Tweetbot_DBSU10, can you please order pizza for me?`
