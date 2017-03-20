@@ -81,7 +81,11 @@ public void setup() {
   // Set deadlines
   deadlines = new ArrayList<Deadline>();
   deadlineHandler.setDeadlines();
-  
+  DmHandler dmHandler = new DmHandler(twitter);
+  dmHandler.getDMs();
+  String dmUser = "@mwcven";
+  String dmMessage = "This is a test message 1";
+  //dmHandler.sendDM(dmUser, dmMessage);
 } 
 
 /**
@@ -115,9 +119,6 @@ private void setupStream() {
         ex.printStackTrace();
     }
   };
-
-  DmHandler dmHandler = new DmHandler(twitter);
-  dmHandler.getDMs();
 
   TwitterStream twitterStream = streamFactory.getInstance();
   twitterStream.addListener(listener);

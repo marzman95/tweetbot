@@ -1,0 +1,9 @@
+This is the help for @tweetbot_dbsu10!
+
+Use the commands listed below to interact with @tweetbot_dbsu10. Some of the replies that @tweetbot_dbsu10 sends to you can contain sensitive data. Those replies will be send via a Direct Message.
+To receive direct messages from @tweetbot_dbsu10 you have to follow the account @tweetbot_dbsu10. The commands are not case sensitive!
+
+The follow commands can be used:
+help				Sends this help text via a direct message.
+deadline			Sends the next deadline for the course DBSU10.
+order [pizza/coffe]	Order a pizza or coffee via the connected modules.
