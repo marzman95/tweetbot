@@ -2,11 +2,8 @@ import java.io.*;
 
 public class DmHandler extends Tweeter {
   
-  /**
-   * This class needs an instance of Twitter to work.
-   * @pre instance of Twitter
-   */
   Twitter twitter;
+  
   DmHandler(Twitter twitter) {
     this.twitter = twitter;
   }
@@ -19,11 +16,11 @@ public class DmHandler extends Tweeter {
    *
    * Rate limit of 15 requests per 15 minutes
    */
-  void getDMs() {
+  public void getDMs() {
     try {
       ResponseList dms = twitter.getDirectMessages();
-      println("[twitter4j-dm] DM's fetched!");
-      println(dms);
+      System.out.println("\n[twitter4j-dm] DM's fetched!");
+      System.out.println(dms);
     } catch (Exception e) {
       println(e);
     }
@@ -35,9 +32,13 @@ public class DmHandler extends Tweeter {
    * @param user the user that receives the direct message
    * @param message the message contents
    */
-   void sendDM(String user, String message) {
-     //Get user
-     //Send message
+   public void sendDM(String user, String message) {
+     try {
+       System.out.println("Sending DM to: " + user);
+       twitter.sendDirectMessage(user, message);
+     } catch (Exception e) {
+       System.out.println("[DMHandler-exception]: " + e);
+     }
    }
   
   /**
@@ -45,18 +46,18 @@ public class DmHandler extends Tweeter {
    * @pre {@code twitter} true
    * @param String user
    */
-   void sendHelp(String user) {
+   /*void sendHelp(String user) {
      //Get user id
      //Generate helptext
      //Send the dm using sendDM(user, helptext);
-   }
+   }*/
    
    /**
     * Generates a helptext form the help-file
     * @exists helpText.tweeter
     */
-   void createHelpText() {
+   /*void createHelpText() {
      Path filePath = Paths.getFile("helperText.tweeter");
      Scanner scanner = new Scanner(filePath);
-   }
+   }*/
 }
