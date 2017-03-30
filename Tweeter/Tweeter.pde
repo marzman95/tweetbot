@@ -82,6 +82,10 @@ public void setup() {
   deadlines = new ArrayList<Deadline>();
   deadlineHandler.setDeadlines();
   
+  // Setup dm-stream
+  DmHandler dmHandler;
+  dmHandler = new DmHandler(twitter);
+  dmHandler.dmStream();
 } 
 
 /**
@@ -115,9 +119,6 @@ private void setupStream() {
         ex.printStackTrace();
     }
   };
-
-  DmHandler dmHandler = new DmHandler(twitter);
-  dmHandler.getDMs();
 
   TwitterStream twitterStream = streamFactory.getInstance();
   twitterStream.addListener(listener);

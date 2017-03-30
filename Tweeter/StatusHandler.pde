@@ -73,5 +73,4 @@ public class StatusHandler {
       " Your " + product + " has been ordered!";
     postStatus(orderReply);
   }
-
 }
