@@ -22,6 +22,7 @@ oocsi
 The tweet text cannot be more than 140 characters. The same tweet cannot be sent twice in a row.
 
 #### Direct message
+Tweetbot can also send Twitters' direct messages. Using this piece of code you can send one. You only need the first line once, since it declares an object that handles the direct messages.
 ```Processing
 DmHandler dmHandler = new DmHandler(Twitter);
 dmHandler.sendDm(String screenName, String message);
