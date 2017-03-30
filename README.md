@@ -21,6 +21,12 @@ oocsi
 ```
 The tweet text cannot be more than 140 characters. The same tweet cannot be sent twice in a row.
 
+#### Direct message
+```Processing
+DmHandler dmHandler = new DmHandler(Twitter);
+dmHandler.sendDm(String screenName, String message);
+```
+
 #### API calls through Twitter
 Our Twitter handle is [@Tweetbot_DBSU10](http://twitter.com/tweetbot_dbsu10). Send a tweet to `@Tweetbot_DBSU10` containing one of the following inputs to achieve the specified result.
 
@@ -31,6 +37,7 @@ Our Twitter handle is [@Tweetbot_DBSU10](http://twitter.com/tweetbot_dbsu10). Se
 | I want pizza | Tweetbot orders you pizza through OOCSI using Group 3's module and tweets you a confirmation. |
 | Order coffee | Tweetbot orders you coffee through OOCSI using Group 2's module and tweets you a confirmation. |
 | I want coffee | Tweetbot orders you coffee through OOCSI using Group 2's module and tweets you a confirmation. |
+| Help (only on DM) | Tweetbot replies with an help-text on the DM's. |
 
 Tweets should contain the exact input string, so `order me pizza` will not work. The API is not case-sensitive, so `order pizza` will work. An example:
 `Hey @Tweetbot_DBSU10, can you please order pizza for me?`
