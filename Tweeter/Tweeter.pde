@@ -83,8 +83,7 @@ public void setup() {
   deadlineHandler.setDeadlines();
   
   // Setup dm-stream
-  DmHandler dmHandler;
-  dmHandler = new DmHandler(twitter);
+  DmHandler dmHandler = new DmHandler(twitter);
   dmHandler.dmStream();
 } 
 

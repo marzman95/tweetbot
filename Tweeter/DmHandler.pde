@@ -7,6 +7,8 @@ import java.util.Iterator;
 
 public class DmHandler extends Tweeter {
   // The value in milliseconds between DM-fetches.
+  // Standard is 60000, 60 seconds (1000 milliseconds), since Twitter
+  // allows up to 15 requests per 15 minutes.
   static final int BREAK = 60 * 1000;
 
   Twitter twitter;
